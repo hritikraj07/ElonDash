@@ -2,8 +2,8 @@
   "name": "elondash",
   "version": "1.0.0",
   "description": "ElonDash – Free Tesla Roadster 3D Endless Runner Game with Live Leaderboard",
-  "main": "server.js",
   "scripts": {
+    "build": "echo 'Ready'",
     "start": "node server.js",
     "dev": "node server.js"
   },
