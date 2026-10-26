@@ -90,45 +90,29 @@ body:has(#gameover:not(.hidden)) #menu {
   text-shadow: 0 0 12px rgba(0, 229, 255, 0.4);
 }
 
-.live-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(0, 255, 136, 0.15);
-  border: 1px solid rgba(0, 255, 136, 0.5);
-  color: #00ff88;
-  font-family: var(--mono, monospace);
-  font-size: 11px;
-  font-weight: 700;
-  padding: 3px 8px;
-  border-radius: 12px;
-  letter-spacing: 1px;
-}
-
+.live-badge,
 .live-pulse {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #00ff88;
-  box-shadow: 0 0 8px #00ff88;
-  animation: live-pulse-anim 1.5s infinite;
+  display: none !important;
 }
 
-@keyframes live-pulse-anim {
-  0% {
-    transform: scale(0.8);
-    opacity: 0.6;
-  }
+#store-claim-coins-btn {
+  background: var(--white, #f4f4f2) !important;
+  color: #000000 !important;
+  border: 1px solid var(--white, #f4f4f2) !important;
+  letter-spacing: .18em !important;
+  border-radius: 2px !important;
+  padding: 12px 24px !important;
+  font-family: var(--font, 'Rajdhani', sans-serif) !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  box-shadow: none !important;
+  transition: background 0.15s ease, box-shadow 0.15s ease !important;
+}
 
-  50% {
-    transform: scale(1.3);
-    opacity: 1;
-  }
-
-  100% {
-    transform: scale(0.8);
-    opacity: 0.6;
-  }
+#store-claim-coins-btn:hover {
+  background: #ffffff !important;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.45) !important;
 }
 
 .live-lb-col-heads {

@@ -8,22 +8,56 @@ const LEADERBOARD_FILE = path.join(BASE_DIR, 'leaderboard.json');
 
 const INITIAL_LEADERBOARD = [];
 
+function deduplicate(list) {
+  if (!Array.isArray(list)) return [];
+  const map = new Map();
+
+  for (const item of list) {
+    if (!item) continue;
+    const rawName = String(item.name || 'Pilot').trim().slice(0, 24);
+    const norm = rawName.toLowerCase();
+    const dist = Math.round(Number(item.distance) || 0);
+    const scr = Math.round(Number(item.score) || 0);
+    const date = item.date || 'Just now';
+
+    if (!map.has(norm)) {
+      map.set(norm, { name: rawName, distance: dist, score: scr, date });
+    } else {
+      const existing = map.get(norm);
+      existing.distance = Math.max(existing.distance, dist);
+      existing.score = Math.max(existing.score, scr);
+      if (dist > existing.distance || scr > existing.score) {
+        existing.name = rawName;
+        existing.date = date;
+      }
+    }
+  }
+
+  const result = Array.from(map.values());
+  result.sort((a, b) => {
+    if (b.distance !== a.distance) return b.distance - a.distance;
+    return b.score - a.score;
+  });
+  return result.slice(0, 100);
+}
+
 function getLeaderboard() {
   try {
     if (fs.existsSync(LEADERBOARD_FILE)) {
       const data = fs.readFileSync(LEADERBOARD_FILE, 'utf8');
-      return JSON.parse(data);
+      const parsed = JSON.parse(data);
+      if (Array.isArray(parsed) && parsed.length > 0) return deduplicate(parsed);
     }
   } catch (e) {
     console.error('Error reading leaderboard file:', e);
   }
-  fs.writeFileSync(LEADERBOARD_FILE, JSON.stringify(INITIAL_LEADERBOARD, null, 2), 'utf8');
-  return INITIAL_LEADERBOARD;
+  return [];
 }
 
 function saveLeaderboard(board) {
   try {
-    fs.writeFileSync(LEADERBOARD_FILE, JSON.stringify(board, null, 2), 'utf8');
+    const deduped = deduplicate(board);
+    fs.writeFileSync(LEADERBOARD_FILE, JSON.stringify(deduped, null, 2), 'utf8');
   } catch (e) {
     console.error('Error writing leaderboard file:', e);
   }
@@ -102,17 +136,27 @@ const server = http.createServer((req, res) => {
           const entry = JSON.parse(body);
           if (entry && entry.name) {
             const board = getLeaderboard();
-            const newEntry = {
-              name: String(entry.name).trim().slice(0, 16) || 'Pilot',
-              distance: Math.round(Number(entry.distance) || 0),
-              score: Math.round(Number(entry.score) || 0),
-              date: 'Just now'
-            };
-            board.push(newEntry);
-            // Sort by distance descending
-            board.sort((a, b) => (b.distance || 0) - (a.distance || 0));
-            // Keep top 20
-            const trimmed = board.slice(0, 20);
+            const rawName = String(entry.name).trim().slice(0, 24) || 'Pilot';
+            const dist = Math.round(Number(entry.distance) || 0);
+            const scr = Math.round(Number(entry.score) || 0);
+
+            const norm = rawName.toLowerCase();
+            const existing = board.find(e => (e.name || '').trim().toLowerCase() === norm);
+            if (existing) {
+              existing.distance = Math.max(existing.distance || 0, dist);
+              existing.score = Math.max(existing.score || 0, scr);
+              existing.name = rawName;
+              existing.date = 'Just now';
+            } else {
+              board.push({
+                name: rawName,
+                distance: dist,
+                score: scr,
+                date: 'Just now'
+              });
+            }
+
+            const trimmed = deduplicate(board);
             saveLeaderboard(trimmed);
             res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
             res.end(JSON.stringify(trimmed));

@@ -305,8 +305,7 @@
         <div id="live-leaderboard" class="lb-panel live-leaderboard-panel">
           <div class="live-lb-header">
             <div class="live-lb-title-group">
-              <h2 class="live-lb-title">LIVE LEADERBOARD</h2>
-              <span class="live-badge"><span class="live-pulse"></span>LIVE</span>
+              <h2 class="live-lb-title">LEADERBOARD</h2>
             </div>
             <div class="live-lb-col-heads">
               <span>RANK</span>
@@ -518,12 +517,8 @@
             <span class="ach-wallet"><svg class="coin" aria-hidden="true"><use href="#i-coin"/></svg><span id="ach-coins" class="mono"></span></span>
           </div>
         </div>
-        <div id="ach-guest" class="ach-guest hidden">
-          <p data-i18n="ach.guestNote"></p>
-          <button id="ach-login" class="google-login" type="button">
-            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="#4285F4" d="M21.6 12.23c0-.71-.06-1.39-.18-2.05H12v3.88h5.38a4.6 4.6 0 0 1-2 3.02v2.51h3.24c1.89-1.74 2.98-4.3 2.98-7.36Z"/><path fill="#34A853" d="M12 22c2.7 0 4.96-.9 6.62-2.41l-3.24-2.51c-.9.6-2.05.96-3.38.96-2.6 0-4.8-1.76-5.59-4.12H3.07v2.59A10 10 0 0 0 12 22Z"/><path fill="#FBBC05" d="M6.41 13.92A6 6 0 0 1 6.1 12c0-.67.11-1.32.31-1.92V7.49H3.07A10 10 0 0 0 2 12c0 1.61.38 3.14 1.07 4.51l3.34-2.59Z"/><path fill="#EA4335" d="M12 5.96c1.47 0 2.79.51 3.83 1.51L18.7 4.6A9.6 9.6 0 0 0 12 2a10 10 0 0 0-8.93 5.49l3.34 2.59C7.2 7.72 9.4 5.96 12 5.96Z"/></svg>
-            <span data-i18n="wallet.save">Sign in &amp; save</span>
-          </button>
+        <div id="ach-guest" class="ach-guest hidden" style="display: none !important;">
+          <button id="ach-login" class="google-login" type="button" style="display: none !important;"></button>
         </div>
         <div class="ach-actions">
           <button id="ach-claim-all" class="primary ach-claim-all hidden" type="button"></button>
@@ -537,13 +532,14 @@
     <div id="coin-store" class="screen modal hidden" role="dialog" aria-modal="true" aria-labelledby="store-title">
       <div id="store-card" class="modal-card store-card">
         <button class="modal-x close-btn" aria-label="Close" data-i18n-aria-label="common.close"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9"/></svg></button>
-        <header class="store-head"><h2 id="store-title" data-i18n="store.title">Store</h2></header>
+        <header class="store-head"><h2 id="store-title">COIN RECHARGER</h2></header>
         <div id="store-locked" class="store-locked">
-          <svg class="store-lock-art" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 46h46M16 46l4-24h24l4 24M21 29h22M20 37h24M11 53h42"/><path d="M27 12h10v10H27z"/></svg>
-          <h3 id="store-lock-title" data-i18n="store.closed">Under construction</h3>
-          <p id="store-lock-note" data-i18n="store.closedNote">We're preparing the store. Please check back soon.</p>
-          <button id="store-login" class="ghost" type="button" data-i18n="auth.google">Sign in with Google</button>
-          <button id="store-retry" class="ghost" type="button" hidden data-i18n="store.retry">Check again</button>
+          <svg class="store-lock-art" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="32" cy="32" r="24" stroke="#ffd34a" fill="rgba(255, 211, 74, 0.1)"/><path d="M28 20l-6 16h10l-4 12 14-18H28z" fill="#ffd34a" stroke="#ffd34a"/></svg>
+          <h3 id="store-lock-title">ELONDASH FREE COINS</h3>
+          <p id="store-lock-note">Collect coins on the highway or claim bonus coins here to upgrade your Tesla Roadster in the Garage!</p>
+          <button id="store-claim-coins-btn" class="primary" type="button" style="margin-top: 14px;"><span>CLAIM +500 COINS</span></button>
+          <button id="store-login" style="display: none !important;"></button>
+          <button id="store-retry" style="display: none !important;"></button>
         </div>
         <div id="store-content" hidden>
           <section id="store-daily" class="store-daily" aria-labelledby="store-daily-title" hidden>
@@ -588,7 +584,7 @@
           <div class="modal-title" data-i18n="shop.title">ITEMS</div>
           <span class="ach-wallet"><svg class="coin" aria-hidden="true"><use href="#i-coin"/></svg><span id="shop-coins" class="mono"></span></span>
         </div>
-        <div id="shop-account" class="store-locked"><p data-i18n="store.loginRequired"></p><button id="shop-login" class="ghost" type="button" data-i18n="auth.google"></button></div>
+        <div id="shop-account" class="store-locked" style="display: none !important;"><button id="shop-login" style="display: none !important;"></button></div>
         <ul id="shop-list" class="shop-list"></ul>
         <p id="shop-status" class="shop-status" role="status" aria-live="polite"></p>
         <div class="modal-buttons"><button class="ghost close-btn" data-i18n="common.close"></button></div>
@@ -633,7 +629,7 @@
           <section class="quest-section">
             <div class="quest-section-head"><h3 class="ach-group-title" data-i18n="quest.attendance">Daily check-in</h3><span id="quest-streak" class="quest-streak"></span></div>
             <div id="quest-bonus" class="quest-bonus" hidden></div>
-            <div id="quest-account" class="quest-account" hidden><p data-i18n="quest.accountRequired"></p><button id="quest-login" class="ghost" type="button" data-i18n="auth.google"></button></div>
+            <div id="quest-account" class="quest-account" style="display: none !important;"><button id="quest-login" style="display: none !important;"></button></div>
             <p id="quest-rule" class="quest-rule"></p>
           </section>
           <section class="quest-section">
@@ -651,7 +647,7 @@
         <button class="modal-x close-btn" aria-label="Close" data-i18n-aria-label="common.close"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9"/></svg></button>
         <div class="shop-head"><div class="modal-title" data-i18n="storage.title">LOCKER</div></div>
         <p class="modal-desc locker-hint" data-i18n="storage.hint"></p>
-        <div id="storage-account" class="quest-account" hidden><p data-i18n="storage.accountRequired"></p><button id="storage-login" class="ghost" type="button" data-i18n="auth.google"></button></div>
+        <div id="storage-account" class="quest-account" style="display: none !important;"><button id="storage-login" style="display: none !important;"></button></div>
         <div id="storage-list" class="locker-list"></div>
         <p id="storage-status" class="shop-status" role="status" aria-live="polite"></p>
       </div>
